@@ -12,8 +12,8 @@ Two phases of work: first restructure the Google Sheet into a single Bank tab se
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Sheet Setup** - Create and seed the Bank tab with all 130 questions
-- [ ] **Phase 2: Workflow** - Build n8n workflow that picks, emails, and marks 3 questions daily
+- [x] **Phase 1: Sheet Setup** - Create and seed the Bank tab with all 130 questions
+- [x] **Phase 2: Workflow** - Build n8n workflow that picks, emails, and marks 3 questions daily
 
 ## Phase Details
 
@@ -46,5 +46,5 @@ Phases execute in numeric order: 1 → 2
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Sheet Setup | 0/? | Not started | - |
-| 2. Workflow | 0/? | Not started | - |
+| 1. Sheet Setup | 1/1 | Complete | 2026-06-13 |
+| 2. Workflow | 1/1 | Complete | 2026-06-13 |
