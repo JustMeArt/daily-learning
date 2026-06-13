@@ -50,7 +50,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. New questions are also appended to the Google Sheet Bank tab with status = queued
   4. Removals by name or description are reflected in both questions.md and the sheet
   5. No duplicate questions are introduced
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 03-01-PLAN.md — Repo foundations (.gitignore, .secrets/) and Python Sheets API helper script
+- [ ] 03-02-PLAN.md — Service account credential drop-in and live Bank tab verification
+- [ ] 03-03-PLAN.md — /curate-bank SKILL.md with preview gates and end-to-end add/remove verification
 
 ## Progress
 
