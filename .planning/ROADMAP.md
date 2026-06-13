@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Sheet Setup** - Create and seed the Bank tab with all 130 questions
 - [x] **Phase 2: Workflow** - Build n8n workflow that picks, emails, and marks 3 questions daily
-- [ ] **Phase 3: Curator Agent** - Claude-powered skill+agent that edits the question bank via natural language and syncs to the Google Sheet
+- [x] **Phase 3: Curator Agent** - Claude-powered skill+agent that edits the question bank via natural language and syncs to the Google Sheet (completed 2026-06-13)
 
 ## Phase Details
 
@@ -52,8 +52,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. No duplicate questions are introduced
 **Plans**: 3 plans
 - [x] 03-01-PLAN.md — Repo foundations (.gitignore, .secrets/) and Python Sheets API helper script
-- [ ] 03-02-PLAN.md — Service account credential drop-in and live Bank tab verification
-- [ ] 03-03-PLAN.md — /curate-bank SKILL.md with preview gates and end-to-end add/remove verification
+- [x] 03-02-PLAN.md — Service account credential drop-in and live Bank tab verification
+- [x] 03-03-PLAN.md — /curate-bank SKILL.md with preview gates and end-to-end add/remove verification
 
 ## Progress
 
@@ -64,4 +64,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Sheet Setup | 1/1 | Complete | 2026-06-13 |
 | 2. Workflow | 1/1 | Complete | 2026-06-13 |
-| 3. Curator Agent | 1/3 | In Progress|  |
+| 3. Curator Agent | 3/3 | Complete   | 2026-06-13 |
