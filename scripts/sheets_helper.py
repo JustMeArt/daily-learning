@@ -236,7 +236,11 @@ def main():
     append_parser.add_argument("--question", required=True, help="Question text")
     append_parser.add_argument("--domain", required=True, help="Domain name")
     append_parser.add_argument(
-        "--est-minutes", type=int, required=True, help="Estimated minutes (15, 30, or 60)"
+        "--est-minutes",
+        type=int,
+        choices=[15, 30, 60],
+        required=True,
+        help="Estimated minutes (15, 30, or 60)",
     )
 
     # delete
