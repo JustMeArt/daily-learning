@@ -163,6 +163,7 @@ def test_delete_single_match_calls_batch_update(monkeypatch, capsys):
     requests = body["requests"]
     assert len(requests) == 1
     del_req = requests[0]["deleteDimension"]["range"]
+    assert del_req["sheetId"] == 0  # matches fake spreadsheet_meta in _make_fake_service
     assert del_req["dimension"] == "ROWS"
     # row 2 → startIndex=1, endIndex=2 (0-based)
     assert del_req["startIndex"] == 1
