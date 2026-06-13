@@ -158,7 +158,12 @@ List every row written or deleted, with the sheet row index returned by the help
   - Added row at sheet row `<appended_row>`: `<question text>`
   - Deleted sheet row `<deleted_row>`: `<question text>`
 
-State that questions.md and the Bank tab are now in sync.
+If the user selected option (a) at the divergence gate in step 3, do NOT state that the
+files are in sync. Instead state: "Change applied. Note: the pre-existing divergence from
+step 3 is still unresolved — you may want to reconcile the Bank tab manually."
+
+Otherwise (no divergence was detected, or user selected option (c) and re-sync completed),
+state that questions.md and the Bank tab are now in sync.
 </process>
 
 ## Output format
