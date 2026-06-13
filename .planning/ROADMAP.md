@@ -14,6 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Sheet Setup** - Create and seed the Bank tab with all 130 questions
 - [x] **Phase 2: Workflow** - Build n8n workflow that picks, emails, and marks 3 questions daily
+- [ ] **Phase 3: Curator Agent** - Claude-powered skill+agent that edits the question bank via natural language and syncs to the Google Sheet
 
 ## Phase Details
 
@@ -39,12 +40,25 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. Running the workflow a second time on the same day picks the next 3 queued questions, not the already-sent ones
 **Plans**: TBD
 
+### Phase 3: Curator Agent
+**Goal**: A Claude-powered agent the user can invoke with natural language to add, remove, or refine questions in the bank — writes to questions.md and syncs new rows to the Google Sheet Bank tab
+**Depends on**: Phase 1, Phase 2
+**Requirements**: FUTURE-01
+**Success Criteria** (what must be TRUE):
+  1. User can invoke the agent with a loose instruction ("add 5 volcano questions") and get correctly formatted questions added to questions.md
+  2. New questions follow the daily-question-curator quality bar (specific, non-obvious, spoiler-free)
+  3. New questions are also appended to the Google Sheet Bank tab with status = queued
+  4. Removals by name or description are reflected in both questions.md and the sheet
+  5. No duplicate questions are introduced
+**Plans**: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2
+Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Sheet Setup | 1/1 | Complete | 2026-06-13 |
 | 2. Workflow | 1/1 | Complete | 2026-06-13 |
+| 3. Curator Agent | 0/? | Not started | - |
