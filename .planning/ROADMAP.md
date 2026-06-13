@@ -51,7 +51,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Removals by name or description are reflected in both questions.md and the sheet
   5. No duplicate questions are introduced
 **Plans**: 3 plans
-- [ ] 03-01-PLAN.md — Repo foundations (.gitignore, .secrets/) and Python Sheets API helper script
+- [x] 03-01-PLAN.md — Repo foundations (.gitignore, .secrets/) and Python Sheets API helper script
 - [ ] 03-02-PLAN.md — Service account credential drop-in and live Bank tab verification
 - [ ] 03-03-PLAN.md — /curate-bank SKILL.md with preview gates and end-to-end add/remove verification
 
@@ -64,4 +64,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Sheet Setup | 1/1 | Complete | 2026-06-13 |
 | 2. Workflow | 1/1 | Complete | 2026-06-13 |
-| 3. Curator Agent | 0/? | Not started | - |
+| 3. Curator Agent | 1/3 | In Progress|  |
