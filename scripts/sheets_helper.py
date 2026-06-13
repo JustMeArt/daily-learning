@@ -143,6 +143,17 @@ def cmd_append(args, service):
     )
     appended_row = _parse_row_index_from_range(updated_range)
 
+    if appended_row == -1:
+        print(
+            json.dumps({
+                "error": "append_failed",
+                "detail": "API returned no updatedRange",
+                "question": args.question,
+            }),
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
     print(json.dumps({"appended_row": appended_row, "question": args.question}))
     sys.exit(0)
 
