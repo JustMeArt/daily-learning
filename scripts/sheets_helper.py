@@ -13,10 +13,12 @@ import argparse
 import json
 import sys
 import os
+import pathlib
 
+_SCRIPT_DIR = pathlib.Path(__file__).parent.parent  # repo root
 SPREADSHEET_ID = "16zTv6lo9SXhZdcorvfhieB46wzbVDwNTDZCpriJdNlE"
 SHEET_NAME = "Bank"
-CREDENTIALS_PATH = ".secrets/service-account.json"
+CREDENTIALS_PATH = str(_SCRIPT_DIR / ".secrets" / "service-account.json")
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 
