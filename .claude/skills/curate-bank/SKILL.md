@@ -71,6 +71,20 @@ If the two sets differ:
 - Do NOT silently overwrite or ignore the divergence.
 - Only proceed with the chosen intent after the user has acknowledged the state.
 
+If the user picks (b): abort immediately. State "Aborted. No changes were written."
+
+If the user picks (c): re-sync the Bank tab to match questions.md before continuing:
+  - For each question in questions.md but not in the sheet: run
+    `python scripts/sheets_helper.py append --question "<text>" --domain "<domain>" --est-minutes <n>`
+  - For each question in the sheet but not in questions.md: run
+    `python scripts/sheets_helper.py delete --question "<exact text>"`
+  - Handle errors from each subcommand as described in step 8's error handling section.
+  - After all re-sync operations complete, state "Re-sync complete. Continuing with your original
+    intent." Then continue to step 4 or 5.
+
+If the user picks (a): record that a pre-existing divergence was acknowledged (used in step 9)
+and continue to step 4 or 5 without modifying the sheet.
+
 If the sets match, continue to step 4 or 5.
 
 **Step 4 — Add flow: generate candidate questions.**
