@@ -27,16 +27,13 @@ No answers in the email. You look them up. That's the point.
 
 ## How it works
 
-Two n8n workflows run on a schedule:
+One n8n workflow runs on a schedule:
 
-**Workflow A — queue filler** (runs at 05:00)
-- Checks how many questions are queued in Google Sheets
-- If fewer than 7: picks the least-recently-used domain, calls Claude API to generate a new question, adds it to the queue
-
-**Workflow B — daily emailer** (runs at 06:30)
-- Picks the 3 oldest queued questions
+**Daily Learning — Morning Questions** (runs at 06:30)
+- Reads all `queued` questions from the Bank tab in Google Sheets
+- Picks 3 at random
 - Sends them via Gmail
-- Marks them as sent in the sheet
+- Marks them as `sent` in the sheet
 
 The `questions.md` file in this repo is the master question bank. New questions are imported from it into the Google Sheet using `scripts/sheets_helper.py`.
 
@@ -46,26 +43,19 @@ The `questions.md` file in this repo is the master question bank. New questions 
 
 ### 1. Google Sheet
 
-Create a Google Sheet with two tabs:
+Create a Google Sheet with one tab named **Bank** — columns: `question`, `domain`, `est_minutes`, `status`, `date_sent`.
 
-**Bank tab** — columns: `question`, `domain`, `est_minutes`
 Import questions from `questions.md` using the helper script (see below).
-
-**Queue tab** — columns: `date_added`, `question`, `domain`, `est_minutes`, `status`, `date_sent`
-
-**Domains tab** — columns: `domain`, `last_used`
-List all 13 domain names, leave `last_used` blank initially.
 
 ### 2. Google credentials
 
-Enable the Google Sheets API in [Google Cloud Console](https://console.cloud.google.com). Download `credentials.json` and place it in `.secrets/`. On first run of `sheets_helper.py`, you'll be prompted to authorise — a `token.json` will be saved to `.secrets/` for future runs.
+Create a service account in [Google Cloud Console](https://console.cloud.google.com), enable the Sheets API, download the JSON key and save it as `.secrets/service-account.json`. Share the sheet with the service account's email address (Editor access).
 
-### 3. n8n workflows
+### 3. n8n workflow
 
-Copy the node-by-node specs from `n8n-workflow-a.md` and `n8n-workflow-b.md` into your n8n instance. Set:
-- Google Sheets credential (OAuth)
+Import `n8n-workflow.json` into your n8n instance. Set:
+- Google Sheets credential (service account or OAuth)
 - Gmail credential (OAuth)
-- Anthropic API key (for Workflow A's HTTP Request node)
 
 ### 4. Import the question bank into Google Sheets
 
@@ -82,14 +72,13 @@ Or bulk-import using the [instagram-scraper](https://github.com/JustMeArt/instag
 ## Files
 
 ```
-questions.md            — master question bank (375 questions, markdown table)
-question-bank.md        — original 80 hand-written starter questions (8 domains)
+questions.md             — master question bank (375 questions, markdown table)
+question-bank.md         — original 80 hand-written starter questions (8 domains)
 question-bank-science.md — 50 science-domain starters (5 domains)
-n8n-workflow-a.md       — queue filler workflow spec (node by node)
-n8n-workflow-b.md       — daily emailer workflow spec (node by node)
-sheet-setup.md          — Google Sheet structure reference
+n8n-workflow.json        — importable n8n workflow (the live one)
+sheet-setup.md           — Google Sheet structure reference
 scripts/
-  sheets_helper.py      — CLI tool: append/read/delete questions in the Sheet
+  sheets_helper.py       — CLI tool: append/read/delete questions in the Sheet
   verify_sheet_access.sh — quick auth check
 ```
 
