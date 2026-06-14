@@ -1,0 +1,214 @@
+{
+  "name": "Daily Learning — Morning Questions",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 6 * * *"
+            }
+          ]
+        }
+      },
+      "id": "aa000001-0000-0000-0000-000000000001",
+      "name": "Schedule 06:30",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "16zTv6lo9SXhZdcorvfhieB46wzbVDwNTDZCpriJdNlE",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Bank",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "aa000002-0000-0000-0000-000000000002",
+      "name": "Read Bank",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "VtxlcZP53fH6sIo6",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all()\n  .map(r => r.json)\n  .filter(r => r.status === 'queued');\n\n// Fisher-Yates shuffle for random daily selection\nfor (let i = rows.length - 1; i > 0; i--) {\n  const j = Math.floor(Math.random() * (i + 1));\n  [rows[i], rows[j]] = [rows[j], rows[i]];\n}\n\nconst top3 = rows.slice(0, 3);\n\nif (top3.length === 0) {\n  throw new Error('No queued questions left — the Bank tab is empty!');\n}\n\nconst lines = top3.map((q, i) =>\n  `${i + 1}. ${q.question}\\n   Domain: ${q.domain} · ~${q.est_minutes} min`\n);\n\nconst body = `Your ${top3.length} questions for today:\\n\\n${lines.join('\\n\\n')}`;\n\nreturn [{ json: { subject: 'Your 3 questions for today', body, questions: top3 } }];\n"
+      },
+      "id": "aa000003-0000-0000-0000-000000000003",
+      "name": "Build Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "lfornefett@gmail.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "aa000004-0000-0000-0000-000000000004",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "iRUBIGUMjQnA4eNv",
+          "name": "Gmail account"
+        }
+      },
+      "webhookId": "0732ab32-c445-46a5-bff6-00e58044e7ac"
+    },
+    {
+      "parameters": {
+        "jsCode": "const questions = $('Build Email').first().json.questions;\nconst today = new Date().toISOString().slice(0, 10);\nreturn questions.map(q => ({\n  json: { question: q.question, status: 'sent', date_sent: today }\n}));\n"
+      },
+      "id": "aa000005-0000-0000-0000-000000000005",
+      "name": "Prepare Updates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "16zTv6lo9SXhZdcorvfhieB46wzbVDwNTDZCpriJdNlE",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Bank",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "question": "={{ $json.question }}",
+            "status": "={{ $json.status }}",
+            "date_sent": "={{ $json.date_sent }}"
+          },
+          "matchingColumns": [
+            "question"
+          ],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "aa000006-0000-0000-0000-000000000006",
+      "name": "Mark Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "VtxlcZP53fH6sIo6",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule 06:30": {
+      "main": [
+        [
+          {
+            "node": "Read Bank",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Bank": {
+      "main": [
+        [
+          {
+            "node": "Build Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Email": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Prepare Updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Updates": {
+      "main": [
+        [
+          {
+            "node": "Mark Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule 06:30": {
+      "recurrenceRules": []
+    }
+  }
+}
