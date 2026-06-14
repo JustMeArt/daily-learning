@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 venv/
 *.egg-info/
+
+# GSD workflow planning artifacts and Claude Code internals
+.planning/
+.claude/
