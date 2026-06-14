@@ -95,6 +95,20 @@ scripts/
 
 ---
 
+## Claude Code skill
+
+If you use [Claude Code](https://claude.ai/code), a `/curate-bank` skill is included in this repo. It lets you add or remove questions from the bank using plain English — no manual file editing.
+
+```
+/curate-bank add 5 questions about why everyday materials behave unexpectedly
+/curate-bank remove the one about why ice cubes get cloudy
+/curate-bank
+```
+
+The skill applies the quality bar automatically, shows a preview table before writing anything, and syncs the change to your Google Sheet. It lives in `.github/skills/curate-bank/` and is picked up by Claude Code automatically when you open the project.
+
+---
+
 ## The question bar
 
 Every question must pass all four:
