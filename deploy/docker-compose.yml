@@ -1,0 +1,17 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    restart: always
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://157.230.224.143:5678/
+      - GENERIC_TIMEZONE=Europe/Berlin
+
+volumes:
+  n8n_data:

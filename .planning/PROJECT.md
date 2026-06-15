@@ -8,6 +8,17 @@ A single n8n workflow that sends 3 curiosity questions by email every morning at
 
 A question lands in the inbox every morning — no setup friction, no AI dependency, no gaps.
 
+## Current Milestone: v1.1 Deploy
+
+**Goal:** Host n8n on a VPS using Docker so the morning email arrives reliably at 06:30 regardless of whether the local machine is on.
+
+**Target features:**
+- VPS provisioned and SSH-accessible
+- Docker + docker-compose installed on the VPS
+- n8n running in a container with persistent storage and auto-restart
+- Workflow, Gmail OAuth, and Sheets credentials re-wired in the hosted n8n instance
+- Verified: 06:30 email arrives from VPS
+
 ## Requirements
 
 ### Validated
@@ -73,4 +84,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-13 after Phase 2 completion*
+*Last updated: 2026-06-15 — Milestone v1.1 Deploy started*
