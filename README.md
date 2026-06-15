@@ -32,10 +32,31 @@ One n8n workflow runs on a schedule:
 **Daily Learning — Morning Questions** (runs at 06:30)
 - Reads all `queued` questions from the Bank tab in Google Sheets
 - Picks 3 at random
-- Sends them via Gmail
+- Sends them via SendGrid
 - Marks them as `sent` in the sheet
 
 The `questions.md` file in this repo is the master question bank. New questions are imported from it into the Google Sheet using `scripts/sheets_helper.py`.
+
+The workflow runs on a self-hosted n8n instance inside a Docker container on a DigitalOcean VPS — so the 06:30 email arrives whether or not your local machine is on.
+
+---
+
+## Hosting
+
+The workflow runs on a DigitalOcean VPS (Ubuntu 24.04, $6/month) with n8n in Docker. Everything needed to reproduce the setup from scratch is in `deploy/`:
+
+```
+deploy/
+  docker-compose.yml   — n8n container config (volume, restart policy, timezone)
+  setup.md             — full step-by-step runbook: Droplet → SSH → firewall → Docker → n8n → credentials
+```
+
+Key decisions:
+- **n8n in Docker** with `restart: always` — survives VPS reboots automatically
+- **ufw firewall** — only ports 22 (SSH) and 5678 (n8n) open
+- **Google Sheets** via service account (no OAuth redirect URI needed)
+- **Email** via SendGrid API (DigitalOcean blocks outbound SMTP on new Droplets)
+- No domain or SSL for now — n8n is accessible at `http://VPS-IP:5678`
 
 ---
 
@@ -54,8 +75,10 @@ Create a service account in [Google Cloud Console](https://console.cloud.google.
 ### 3. n8n workflow
 
 Import `n8n-workflow.json` into your n8n instance. Set:
-- Google Sheets credential (service account or OAuth)
-- Gmail credential (OAuth)
+- Google Sheets credential → **Google Service Account API** (use the service-account.json from step 2)
+- Send Email credential → **SendGrid** (requires a SendGrid account and verified sender)
+
+For self-hosted n8n on a plain IP address (no domain): see `deploy/setup.md` for the full credential and hosting setup.
 
 ### 4. Import the question bank into Google Sheets
 
@@ -77,6 +100,9 @@ question-bank.md         — original 80 hand-written starter questions (8 domai
 question-bank-science.md — 50 science-domain starters (5 domains)
 n8n-workflow.json        — importable n8n workflow (the live one)
 sheet-setup.md           — Google Sheet structure reference
+deploy/
+  docker-compose.yml     — n8n container config for VPS hosting
+  setup.md               — full VPS setup runbook
 scripts/
   sheets_helper.py       — CLI tool: append/read/delete questions in the Sheet
   verify_sheet_access.sh — quick auth check
