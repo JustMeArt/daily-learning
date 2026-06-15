@@ -12,6 +12,7 @@ services:
       - N8N_PROTOCOL=http
       - WEBHOOK_URL=http://157.230.224.143:5678/
       - GENERIC_TIMEZONE=Europe/Berlin
+      - N8N_SECURE_COOKIE=false
 
 volumes:
   n8n_data:
