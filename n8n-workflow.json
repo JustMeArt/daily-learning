@@ -67,24 +67,31 @@
     },
     {
       "parameters": {
-        "fromEmail": "lfornefett@gmail.com",
         "toEmail": "lfornefett@gmail.com",
         "subject": "={{ $json.subject }}",
-        "text": "={{ $json.body }}",
-        "options": {}
+        "contentType": "plaintext",
+        "message": "={{ $json.body }}",
+        "options": {
+          "from": {
+            "value": {
+              "fromEmail": "lfornefett@gmail.com",
+              "fromName": "Daily Learning"
+            }
+          }
+        }
       },
       "id": "aa000004-0000-0000-0000-000000000004",
       "name": "Send Email",
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
+      "type": "n8n-nodes-base.sendGrid",
+      "typeVersion": 1,
       "position": [
         900,
         300
       ],
       "credentials": {
-        "smtp": {
+        "sendGridApi": {
           "id": "",
-          "name": "Gmail SMTP"
+          "name": "SendGrid"
         }
       }
     },
